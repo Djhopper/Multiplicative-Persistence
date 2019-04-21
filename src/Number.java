@@ -1,4 +1,6 @@
-public class number {
+import java.util.HashMap;
+
+public class Number {
     private int total;
     private int[] array;
 
@@ -25,12 +27,12 @@ public class number {
         return Integer.parseInt(out);
     }
 
-    number(int t) {
+    Number(int t) {
         total = t;
         array = totalToArray(t);
     }
 
-    number(int[] a) {
+    Number(int[] a) {
         total = arrayToTotal(a);
         array = a;
     }
@@ -47,7 +49,30 @@ public class number {
         if (next == total) {
             return 0;
         } else {
-            return 1 + new number(next).getMultiplicitivePersistence();
+            return 1 + new Number(next).getMultiplicitivePersistence();
+        }
+    }
+
+    public static int getWithMemoisation(HashMap<Integer, Integer> mem, Integer num) {
+        if (mem.keySet().contains(num)) {
+            return mem.get(num);
+        } else {
+            int next = 1;
+            String s = Integer.toString(num);
+
+            for (int i=0; i<s.length(); i++) {
+                int digit = Character.getNumericValue(s.charAt(i));
+                next *= digit;
+            }
+
+            if (next == num) {
+                mem.put(num, 0);
+                return 0;
+            } else {
+                Integer result = 1 + getWithMemoisation(mem, next);
+                mem.put(num, result);
+                return result;
+            }
         }
     }
 }
