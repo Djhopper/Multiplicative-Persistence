@@ -3,25 +3,23 @@ public class number {
     private int[] array;
 
     private static int[] totalToArray(int t) {
-        int[] out = new int[8];
+        int[] out = new int[10];
 
         String s = Integer.toString(t);
         for (int i=0; i<s.length(); i++) {
-            if (i>1) {
-                int digit = Character.getNumericValue(s.charAt(i));
-                out[digit - 2] += 1;
-            }
+            int digit = Character.getNumericValue(s.charAt(i));
+            out[digit]++;
         }
 
         return out;
     }
 
     private static int arrayToTotal(int[] a) {
-        assert a.length == 8;
+        assert a.length == 10;
         String out = "";
 
         for (int i=0; i<a.length; i++) {
-            out += new String(new char[a[i]]).replace("\0", Integer.toString(i+2));
+            out += new String(new char[a[i]]).replace("\0", Integer.toString(i));
         }
 
         return Integer.parseInt(out);
@@ -46,8 +44,8 @@ public class number {
             next *= digit;
         }
 
-        if (Integer.toString(next).contains("0")) {
-            return 2;
+        if (next == total) {
+            return 0;
         } else {
             return 1 + new number(next).getMultiplicitivePersistence();
         }
